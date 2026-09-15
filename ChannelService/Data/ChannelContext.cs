@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ChannelService.Models;
 using Microsoft.EntityFrameworkCore;
-using Models;
 
-namespace Infrastructure;
+namespace ChannelService.Data;
 
 public partial class ChannelContext : DbContext
 {
@@ -25,8 +23,12 @@ public partial class ChannelContext : DbContext
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp without time zone")
+                .HasColumnType("timestamp with time zone")
                 .HasColumnName("created_at");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnType("timestamp with time zone")
+                .HasColumnName("updated_at");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Name).HasColumnName("name");
         });

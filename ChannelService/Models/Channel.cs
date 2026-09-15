@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace ChannelService.Models;
 
-namespace Models;
-
-public partial class Channel
+public class Channel
 {
     public string Id { get; set; } = null!;
 
@@ -12,4 +9,6 @@ public partial class Channel
     public string? Description { get; set; }
 
     public DateTime? CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
 }
