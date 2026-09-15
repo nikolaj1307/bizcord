@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Models;
 
-namespace Infrastructure;
+namespace NotificationService.Data;
 
 public partial class NotificationContext : DbContext
 {
