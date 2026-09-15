@@ -1,5 +1,8 @@
 
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yaml" />
+  </Folder>
   <Project Path="ChannelService/ChannelService.csproj" />
   <Project Path="NotificationService/NotificationService.csproj" />
   <Project Path="SharedModels/SharedModels.csproj" />

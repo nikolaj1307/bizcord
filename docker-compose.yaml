@@ -1,0 +1,44 @@
+﻿services:
+  channel-db:
+    image: postgres:latest
+    container_name: channel-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: channel
+    ports:
+      - "5432:5432"
+    volumes:
+      - channel-db-data:/var/lib/postgresql
+    
+  notification-db:
+    image: postgres:latest
+    container_name: notification-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: notification
+    ports:
+      - "5433:5432"
+    volumes:
+      - notification-db-data:/var/lib/postgresql
+      
+  channel-service:
+    image: channel-service
+    depends_on:
+      - channel-db
+    build:
+      context: .
+      dockerfile: ChannelService/Dockerfile
+
+  notification-service:
+    image: notification-service
+    depends_on:
+      - notification-db
+    build:
+      context: .
+      dockerfile: NotificationService/Dockerfile
+
+volumes:
+    channel-db-data:
+    notification-db-data:
