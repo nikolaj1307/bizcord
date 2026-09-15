@@ -1,9 +1,41 @@
+using EasyNetQ;
+using Messages;
+
 namespace NotificationService.Infrastructure;
 
-public class MessageHandler : IMessageHandler
+public class MessageHandler : BackgroundService
 {
-    public void Register(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(
+        CancellationToken stoppingToken)
     {
-        throw new NotImplementedException();
+        Console.WriteLine("MessageHandler starting...");
+
+        var bus = RabbitHutch.CreateBus("host=localhost");
+
+        Console.WriteLine("Connected to RabbitMQ");
+
+        await bus.PubSub.SubscribeAsync<PingMessage>(
+            "ping-message",
+            msg =>
+            {
+                Console.WriteLine(
+                    $"Received message: {msg.Message}");
+            },
+            stoppingToken);
+
+        Console.WriteLine("Subscribed to ping-message");
+
+        try
+        {
+            await Task.Delay(
+                Timeout.Infinite,
+                stoppingToken);
+        }
+        catch (OperationCanceledException)
+        {
+            // Application is shutting down
+        }
+
+        Console.WriteLine("Message handler is stopping...");
     }
 }
