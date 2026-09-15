@@ -26,5 +26,9 @@
     <ItemGroup>
         <ProjectReference Include="..\SharedModels\SharedModels.csproj"/>
     </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\MessageClient\MessageClient.csproj" />
+    </ItemGroup>
 
 </Project>

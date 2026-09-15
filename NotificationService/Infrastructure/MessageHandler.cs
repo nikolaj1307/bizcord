@@ -1,5 +1,6 @@
 using EasyNetQ;
 using Messages;
+using SharedModels;
 
 namespace NotificationService.Infrastructure;
 
@@ -14,16 +15,16 @@ public class MessageHandler : BackgroundService
 
         Console.WriteLine("Connected to RabbitMQ");
 
-        await bus.PubSub.SubscribeAsync<PingMessage>(
-            "ping-message",
+        await bus.PubSub.SubscribeAsync<ChannelUpdatedMessage>(
+            "channel-updated",
             msg =>
             {
                 Console.WriteLine(
-                    $"Received message: {msg.Message}");
+                    $"Received message: {msg.ChannelId} - {msg.ChannelName}");
             },
             stoppingToken);
 
-        Console.WriteLine("Subscribed to ping-message");
+        Console.WriteLine("Subscribed to channel-updated-message");
 
         try
         {
