@@ -1,0 +1,6 @@
+
+<Solution>
+  <Project Path="ChannelService/ChannelService.csproj" />
+  <Project Path="NotificationService/NotificationService.csproj" />
+  <Project Path="SharedModels/SharedModels.csproj" />
+</Solution>
