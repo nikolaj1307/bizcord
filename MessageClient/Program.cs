@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddMessageClient(options => {
-    options.ConnectionString = "host=localhost";
+    options.ConnectionString = builder.Configuration["AppOptions:RABBITMQ_HOST"];
     options.MessagingProvider = MessagingProvider.RabbitMQ;
 });
 

@@ -18,7 +18,7 @@ builder.Services.AddScoped<IChannelRepository, ChannelChannelRepository>();
 builder.Services.AddScoped<IChannelService, ChannelService.Service.ChannelService>();
 builder.Services.AddSingleton<IMessagePublisher>(new MessagePublisher(
     RabbitMQFactory.Create(
-        new MessageClientOptions { ConnectionString = "host=localhost", MessagingProvider = MessagingProvider.RabbitMQ}
+        new MessageClientOptions { ConnectionString = builder.Configuration["AppOptions:RABBITMQ_HOST"], MessagingProvider = MessagingProvider.RabbitMQ}
     )
 ));
 

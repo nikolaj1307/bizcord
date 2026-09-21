@@ -4,14 +4,13 @@ using SharedModels;
 
 namespace NotificationService.Infrastructure;
 
-public class MessageHandler : BackgroundService
+public class MessageHandler(IBus bus) : BackgroundService
 {
+    
     protected override async Task ExecuteAsync(
         CancellationToken stoppingToken)
     {
         Console.WriteLine("MessageHandler starting...");
-
-        var bus = RabbitHutch.CreateBus("host=localhost");
 
         Console.WriteLine("Connected to RabbitMQ");
 

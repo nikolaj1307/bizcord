@@ -15,7 +15,7 @@ builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService.Service.NotificationService>();
 
 builder.Services.AddSingleton(
-    RabbitHutch.CreateBus("host=localhost"));
+    RabbitHutch.CreateBus(builder.Configuration["AppOptions:RABBITMQ_HOST"]));
 builder.Services.AddHostedService<MessageHandler>();
 builder.Services.AddControllers();
 
