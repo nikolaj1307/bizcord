@@ -1,8 +1,8 @@
 using ChannelService.Data;
-using ChannelService.Infrastructure;
 using ChannelService.Service;
 using MessageClient.Configuration;
 using MessageClient.Factories;
+using MessageClient.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IChannelRepository, ChannelChannelRepository>();
 builder.Services.AddScoped<IChannelService, ChannelService.Service.ChannelService>();
-builder.Services.AddSingleton<IMessagePublisher>(new MessagePublisher(
+builder.Services.AddSingleton<IMessageClient>(
     RabbitMQFactory.Create(
         new MessageClientOptions
         {
@@ -24,7 +24,7 @@ builder.Services.AddSingleton<IMessagePublisher>(new MessagePublisher(
             MessagingProvider = MessagingProvider.RabbitMQ
         }
     )
-));
+);
 
 builder.Services.AddDbContext<ChannelContext>(options =>
     options.UseNpgsql(

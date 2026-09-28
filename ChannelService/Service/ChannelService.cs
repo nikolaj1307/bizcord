@@ -1,12 +1,12 @@
 using ChannelService.Data;
-using ChannelService.Infrastructure;
 using ChannelService.Models;
+using MessageClient.Interfaces;
 using SharedModels;
 using SharedModels.Dtos;
 
 namespace ChannelService.Service;
 
-public class ChannelService(IChannelRepository channelRepository, IMessagePublisher messagePublisher) : IChannelService
+public class ChannelService(IChannelRepository channelRepository, IMessageClient messageClient) : IChannelService
 {
     public async Task<List<ChannelResponseDto>> GetAll()
     {
@@ -81,7 +81,13 @@ public class ChannelService(IChannelRepository channelRepository, IMessagePublis
         if (updatedChannel == null)
             throw new ChannelException.ChannelNotFoundException("No channel found with the given id");
 
-        await messagePublisher.PublishChannelMessage(updatedChannel);
+        var updatedMessage = new ChannelUpdatedMessage
+        {
+            ChannelId = updatedChannel.Id,
+            ChannelName = updatedChannel.Name
+        };
+        
+        await messageClient.PublishAsync("channel-updated", updatedMessage);
 
         return new ChannelResponseDto
         {

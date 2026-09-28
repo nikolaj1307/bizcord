@@ -2,6 +2,7 @@
     <Folder Name="/Solution Items/">
         <File Path="docker-compose.yaml" />
     </Folder>
+    <Project Path="ChannelService.Tests/ChannelService.Tests.csproj" />
     <Project Path="ChannelService/ChannelService.csproj" />
     <Project Path="MessageClient/MessageClient.csproj" />
     <Project Path="NotificationService/NotificationService.csproj" />
