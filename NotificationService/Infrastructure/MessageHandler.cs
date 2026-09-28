@@ -1,12 +1,10 @@
 using EasyNetQ;
-using Messages;
 using SharedModels;
 
 namespace NotificationService.Infrastructure;
 
 public class MessageHandler(IBus bus) : BackgroundService
 {
-    
     protected override async Task ExecuteAsync(
         CancellationToken stoppingToken)
     {

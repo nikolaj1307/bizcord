@@ -1,10 +1,11 @@
-using MessageClient.Extensions;
 using MessageClient.Configuration;
+using MessageClient.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddMessageClient(options => {
+builder.Services.AddMessageClient(options =>
+{
     options.ConnectionString = builder.Configuration["AppOptions:RABBITMQ_HOST"];
     options.MessagingProvider = MessagingProvider.RabbitMQ;
 });
@@ -16,10 +17,7 @@ builder.Services.AddOpenApi();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+if (app.Environment.IsDevelopment()) app.MapOpenApi();
 
 app.UseHttpsRedirection();
 

@@ -3,18 +3,22 @@ using MessageClient.Interfaces;
 
 namespace MessageClient.Implementation;
 
-public class RabbitMQAdapter : IMessageClient {
+public class RabbitMQAdapter : IMessageClient
+{
     private readonly IBus _bus;
-    private readonly Dictionary<string, IDisposable> _subscriptions = new Dictionary<string, IDisposable>();
-    public RabbitMQAdapter(IBus bus){
+    private readonly Dictionary<string, IDisposable> _subscriptions = new();
+
+    public RabbitMQAdapter(IBus bus)
+    {
         _bus = bus;
     }
 
-    public async Task SubscribeAsync<T>(string subscription, Action<T> handler, CancellationToken cancellationToken = default){
-        if(_subscriptions.Keys.Contains(subscription)){
-            throw new ArgumentException("");
-        }
-        var subscriptionHandle = await _bus.PubSub.SubscribeAsync<T>(
+    public async Task SubscribeAsync<T>(string subscription, Action<T> handler,
+        CancellationToken cancellationToken = default)
+    {
+        if (_subscriptions.Keys.Contains(subscription)) throw new ArgumentException("");
+
+        var subscriptionHandle = await _bus.PubSub.SubscribeAsync(
             subscription,
             handler,
             cancellationToken
@@ -22,16 +26,20 @@ public class RabbitMQAdapter : IMessageClient {
         _subscriptions.Add(subscription, subscriptionHandle);
     }
 
-    public async Task PublishAsync<T>(string subscription, T message, CancellationToken cancellationToken = default){
+    public async Task PublishAsync<T>(string subscription, T message, CancellationToken cancellationToken = default)
+    {
         Console.WriteLine($"Publishing message to {subscription}");
         await _bus.PubSub.PublishAsync<T>(message, cancellationToken);
     }
 
-    public Task UnsubscribeAsync(string subscription, CancellationToken cancellationToken = default){
-        if(_subscriptions.TryGetValue(subscription, out var subscriptionHandle)){
+    public Task UnsubscribeAsync(string subscription, CancellationToken cancellationToken = default)
+    {
+        if (_subscriptions.TryGetValue(subscription, out var subscriptionHandle))
+        {
             subscriptionHandle.Dispose();
             _subscriptions.Remove(subscription);
         }
+
         return Task.CompletedTask;
     }
 }

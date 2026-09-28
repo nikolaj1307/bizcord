@@ -20,6 +20,17 @@
       - "5433:5432"
     volumes:
       - notification-db-data:/var/lib/postgresql
+  
+  message-db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: message
+    ports:
+      - "5434:5432"
+    volumes:
+      - message-db-data:/var/lib/postgresql
 
   message-client-rabbitmq:
     image: rabbitmq:3-management
@@ -27,7 +38,7 @@
       - "5672:5672"
       - "15672:15672"
     healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      test: [ "CMD", "rabbitmq-diagnostics", "-q", "ping" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -43,6 +54,7 @@
     ports:
       - "5001:8080"
     environment:
+      ASPNETCORE_ENVIRONMENT: Development
       AppOptions__DbConnectionString: "Host=channel-db;Port=5432;Database=channel;Username=admin;Password=admin"
       AppOptions__RABBITMQ_HOST: "host=message-client-rabbitmq"
 
@@ -56,8 +68,21 @@
     ports:
       - "5002:8080"
     environment:
+      ASPNETCORE_ENVIRONMENT: Development
       AppOptions__DbConnectionString: "Host=notification-db;Port=5433;Database=notification;Username=admin;Password=admin"
       AppOptions__RABBITMQ_HOST: "host=message-client-rabbitmq"
+  
+  messaging-service:
+    build:
+      context: .
+      dockerfile: MessagingService/Dockerfile
+    depends_on:
+      - message-db
+    ports:
+      - "5003:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      AppOptions__DbConnectionString: "Host=message-db;Port=5434;Database=message;Username=admin;Password=admin"
 
   message-client:
     build:
@@ -66,9 +91,11 @@
     depends_on:
       message-client-rabbitmq:
         condition: service_healthy
+    
     ports:
       - "8000:80"
 
 volumes:
   channel-db-data:
   notification-db-data:
+  message-db-data:

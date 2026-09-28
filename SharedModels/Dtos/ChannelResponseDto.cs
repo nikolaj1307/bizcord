@@ -1,4 +1,4 @@
-﻿namespace SharedModels;
+﻿namespace SharedModels.Dtos;
 
 public class ChannelResponseDto
 {
@@ -7,8 +7,8 @@ public class ChannelResponseDto
     public string Name { get; set; } = null!;
 
     public string? Description { get; set; }
-    
+
     public DateTime? CreatedAt { get; set; }
-    
+
     public DateTime? UpdatedAt { get; set; }
 }

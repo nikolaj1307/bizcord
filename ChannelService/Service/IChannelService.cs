@@ -1,4 +1,5 @@
 using SharedModels;
+using SharedModels.Dtos;
 
 namespace ChannelService.Service;
 

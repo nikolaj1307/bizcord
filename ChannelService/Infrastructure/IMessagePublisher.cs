@@ -1,4 +1,3 @@
-using System.Threading.Channels;
 using Channel = ChannelService.Models.Channel;
 
 namespace ChannelService.Infrastructure;

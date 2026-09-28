@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Models;
+using NotificationService.Models;
 
 namespace NotificationService.Data;
 

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace NotificationService.Models;
 
-namespace Models;
-
-public partial class Notification
+public class Notification
 {
     public string Id { get; set; } = null!;
 

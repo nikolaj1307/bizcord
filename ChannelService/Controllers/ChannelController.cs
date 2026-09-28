@@ -1,6 +1,7 @@
 using ChannelService.Service;
 using Microsoft.AspNetCore.Mvc;
 using SharedModels;
+using SharedModels.Dtos;
 
 namespace ChannelService.Controllers;
 

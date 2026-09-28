@@ -6,19 +6,16 @@ namespace ChannelService.Infrastructure;
 
 public class MessagePublisher(IMessageClient messageClient) : IMessagePublisher
 {
-    
     public async Task PublishChannelMessage(Channel channel)
     {
-
         if (channel.Id == null) return;
-        
-        ChannelUpdatedMessage message = new ChannelUpdatedMessage
+
+        var message = new ChannelUpdatedMessage
         {
             ChannelId = channel.Id,
             ChannelName = channel.Name
         };
 
-        await messageClient.PublishAsync<ChannelUpdatedMessage>("channel-updated", message);
-
+        await messageClient.PublishAsync("channel-updated", message);
     }
 }

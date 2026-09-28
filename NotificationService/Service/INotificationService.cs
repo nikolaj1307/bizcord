@@ -1,6 +1,5 @@
 namespace NotificationService.Service;
 
-public interface INotificationService 
+public interface INotificationService
 {
-    
 }

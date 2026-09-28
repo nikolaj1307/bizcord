@@ -1,7 +1,7 @@
 using EasyNetQ;
 using Messages;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using NotificationService.Models;
 
 namespace NotificationService.Controllers;
 
@@ -15,17 +15,16 @@ public class NotificationController(IBus bus) : ControllerBase
     {
         bus.PubSub.Publish<PingMessage>(new PingMessage { Message = "Hello" });
     }
-    
+
     [HttpPost(Name = "CreateNotification")]
     public IActionResult CreateNotification(Notification notification)
     {
         throw new NotImplementedException();
     }
-    
+
     [HttpGet(Name = "GetNotification")]
     public IActionResult GetNotification()
     {
-        throw new NotImplementedException();    
+        throw new NotImplementedException();
     }
-
 }
