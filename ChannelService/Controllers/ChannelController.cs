@@ -16,8 +16,8 @@ public class ChannelController(IChannelService channelService) : ControllerBase
         return Ok(channels);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<ChannelResponseDto>> GetById(string id)
+    [HttpGet("ById", Name = "ById")]
+    public async Task<ActionResult<ChannelResponseDto>> GetById([FromHeader(Name = "ChannelId")] string id)
     {
         var channel = await channelService.GetById(id);
         if (channel == null) return NotFound();
@@ -39,8 +39,8 @@ public class ChannelController(IChannelService channelService) : ControllerBase
         return Ok(updatedChannel);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult<ChannelResponseDto>> Delete(string id)
+    [HttpDelete("ById", Name = "ById")]
+    public async Task<ActionResult<ChannelResponseDto>> Delete([FromHeader(Name = "ChannelId")] string id)
     {
         var deletedChannel = await channelService.Delete(id);
         if (deletedChannel == null) return NotFound();
