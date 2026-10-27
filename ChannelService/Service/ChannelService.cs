@@ -1,12 +1,13 @@
 using ChannelService.Data;
 using ChannelService.Models;
 using MessageClient.Interfaces;
+using Polly;
 using SharedModels;
 using SharedModels.Dtos;
 
-namespace ChannelService.Service;
 
-public class ChannelService(IChannelRepository channelRepository, IMessageClient messageClient) : IChannelService
+namespace ChannelService.Service;
+public class ChannelService(IChannelRepository channelRepository, IMessageClient messageClient, ResiliencePipeline retryPipeline) : IChannelService
 {
     public async Task<List<ChannelResponseDto>> GetAll()
     {
@@ -87,7 +88,10 @@ public class ChannelService(IChannelRepository channelRepository, IMessageClient
             ChannelName = updatedChannel.Name
         };
         
-        await messageClient.PublishAsync("channel-updated", updatedMessage);
+        await retryPipeline.ExecuteAsync(async cancellationToken =>
+        {
+            await messageClient.PublishAsync("channel-updated", updatedMessage, cancellationToken);
+        });
 
         return new ChannelResponseDto
         {
