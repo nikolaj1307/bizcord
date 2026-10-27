@@ -66,8 +66,8 @@ public class ChannelService(IChannelRepository channelRepository, IMessageClient
 
     public async Task<ChannelResponseDto?> Update(UpdateChannelDto updateDto)
     {
-        if (updateDto.Id == null)
-            throw new ChannelException.ChannelNotFoundException("Channel id is required for update");
+        if (updateDto.Id == null || updateDto.Id.Trim() == "")
+            throw new ChannelException.ChannelIdNotNullOrEmptyException("Channel id is required for update");
 
         var channel = new Channel
         {

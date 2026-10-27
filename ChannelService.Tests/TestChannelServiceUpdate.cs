@@ -50,6 +50,7 @@ public class TestChannelServiceUpdate
         
         
         var mockMessageClient = new Mock<IMessageClient>();
+        var mockResiliencePipeline = new Mock<Polly.ResiliencePipeline>();
         var mockRepo = new Mock<IChannelRepository>();
         mockMessageClient.Setup(client => client.PublishAsync("channel-updated", updatedMessage));
         mockRepo
@@ -59,7 +60,7 @@ public class TestChannelServiceUpdate
             .Setup(repo => repo.Update(It.IsAny<Channel>()))
             .ReturnsAsync(updatedChannel);
 
-        var service = new Service.ChannelService(mockRepo.Object, mockMessageClient.Object);
+        var service = new Service.ChannelService(mockRepo.Object, mockMessageClient.Object, mockResiliencePipeline.Object);
 
         var controller = new ChannelController(service);
         //Act
