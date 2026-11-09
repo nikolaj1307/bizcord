@@ -7,4 +7,5 @@
     <Project Path="MessageClient/MessageClient.csproj" />
     <Project Path="NotificationService/NotificationService.csproj" />
     <Project Path="SharedModels/SharedModels.csproj" />
+    <Project Path="VaultRead/VaultRead.csproj" />
 </Solution>
