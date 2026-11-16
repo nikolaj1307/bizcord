@@ -1,4 +1,5 @@
 using ChannelService.Data;
+using ChannelService.GraphQL;
 using ChannelService.Service;
 using MessageClient.Configuration;
 using MessageClient.Factories;
@@ -6,7 +7,6 @@ using MessageClient.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Polly;
 using Polly.Retry;
-using RabbitMQ.Client.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +17,12 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<ChannelQuery>()
+    .AddMutationType<ChannelMutation>();
+
 builder.Services.AddScoped<IChannelRepository, ChannelChannelRepository>();
 builder.Services.AddScoped<IChannelService, ChannelService.Service.ChannelService>();
 builder.Services.AddSingleton<IMessageClient>(
@@ -28,6 +34,8 @@ builder.Services.AddSingleton<IMessageClient>(
         }
     )
 );
+
+
 
 builder.Services.AddSingleton<ResiliencePipeline>(_=> new ResiliencePipelineBuilder()
     .AddRetry(new RetryStrategyOptions
@@ -64,5 +72,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGraphQL();
 
 app.Run();

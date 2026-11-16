@@ -7,7 +7,7 @@ using SharedModels.Dtos;
 
 
 namespace ChannelService.Service;
-public class ChannelService(IChannelRepository channelRepository, IMessageClient messageClient, ResiliencePipeline retryPipeline, ILogger logger) : IChannelService
+public class ChannelService(IChannelRepository channelRepository, IMessageClient messageClient, ResiliencePipeline retryPipeline, ILogger<ChannelService> logger) : IChannelService
 {
     public async Task<List<ChannelResponseDto>> GetAll()
     {
