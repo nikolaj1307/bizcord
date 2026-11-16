@@ -7,7 +7,7 @@ using SharedModels.Dtos;
 
 
 namespace ChannelService.Service;
-public class ChannelService(IChannelRepository channelRepository, IMessageClient messageClient, ResiliencePipeline retryPipeline) : IChannelService
+public class ChannelService(IChannelRepository channelRepository, IMessageClient messageClient, ResiliencePipeline retryPipeline, ILogger logger) : IChannelService
 {
     public async Task<List<ChannelResponseDto>> GetAll()
     {
@@ -16,6 +16,8 @@ public class ChannelService(IChannelRepository channelRepository, IMessageClient
         if (channels.Count == 0)
             throw new ChannelException.ChannelNotFoundException("No channels found");
 
+        logger.LogInformation("Retrieved {Count} channels", channels.Count);
+        
         return channels.Select(c => new ChannelResponseDto
         {
             Id = c.Id,

@@ -40,6 +40,12 @@
     depends_on:
       - channel-db
       - message-client-rabbitmq
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: channel-service
     ports:
       - "5001:8080"
     environment:
@@ -70,6 +76,43 @@
         condition: service_healthy
     ports:
       - "8000:80"
+  
+  fluentd:
+    build: ./fluentd
+    volumes:
+      - ./fluentd/conf:/fluentd/etc
+    depends_on:
+      # Launch fluentd after that elasticsearch is ready to connect
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.1
+    container_name: elasticsearch
+    hostname: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false # Disable security for testing
+    healthcheck:
+      # Check whether service is ready
+      test: [ "CMD", "curl", "-f", "http://localhost:9200/_cluster/health" ]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+    ports:
+      - 9200:9200
+    
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.17.1
+    depends_on:
+      # Launch fluentd after that elasticsearch is ready to connect
+      elasticsearch:
+        condition: service_healthy
+    ports:
+      - "5601:5601"
 
 volumes:
   channel-db-data:
