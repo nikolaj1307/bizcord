@@ -46,4 +46,18 @@ public class ChannelController(IChannelService channelService) : ControllerBase
         if (deletedChannel == null) return NotFound();
         return Ok(deletedChannel);
     }
+
+    [HttpDelete("RemoveUserFromChannel", Name = "RemoveUserFromChannel")]
+    public async Task<ActionResult<ChannelResponseDto>> RemoveUserFromChannel([FromBody] ChannelMemberDto removeUserMemberDto)
+    {
+        await channelService.RemoveUserFromChannel(removeUserMemberDto);
+        return Ok();
+    }
+
+    [HttpPost("AddUserToChannel", Name = "AddUserToChannel")]
+    public async Task<ActionResult<ChannelResponseDto>> AddUserToChannel([FromBody] ChannelMemberDto addUserMemberDto)
+    {
+        await channelService.AddUserToChannel(addUserMemberDto);
+        return Ok();
+    }
 }

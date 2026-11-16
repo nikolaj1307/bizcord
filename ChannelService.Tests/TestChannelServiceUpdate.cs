@@ -1,8 +1,9 @@
 ﻿using ChannelService.Controllers;
 using ChannelService.Data;
-using ChannelService.Models;
 using MessageClient.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Models;
 using Moq;
 using SharedModels;
 using SharedModels.Dtos;
@@ -21,7 +22,8 @@ public class TestChannelServiceUpdate
             Name = "CurrentChannel",
             Description = "CurrentDescription",
             CreatedAt = new DateTime(2024, 1, 1),
-            UpdatedAt = new DateTime(2024, 1, 1)
+            UpdatedAt = new DateTime(2024, 1, 1), 
+            OwnerId = "owner123"
         };
         
         var updatedChannel = new Channel
@@ -58,9 +60,10 @@ public class TestChannelServiceUpdate
             .ReturnsAsync(currentChannel);
         mockRepo
             .Setup(repo => repo.Update(It.IsAny<Channel>()))
-            .ReturnsAsync(updatedChannel);
+            .ReturnsAsync(updatedChannel); 
+        var logger = new Mock<ILogger<Service.ChannelService>>();
 
-        var service = new Service.ChannelService(mockRepo.Object, mockMessageClient.Object, mockResiliencePipeline.Object);
+        var service = new Service.ChannelService(mockRepo.Object, mockMessageClient.Object, mockResiliencePipeline.Object, logger.Object);
 
         var controller = new ChannelController(service);
         //Act

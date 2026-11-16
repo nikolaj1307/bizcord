@@ -1,4 +1,4 @@
-using ChannelService.Models;
+using Models;
 
 namespace ChannelService.Data;
 
@@ -9,4 +9,7 @@ public interface IChannelRepository
     Task<Channel> Create(Channel entity);
     Task<Channel?> Update(Channel entity);
     Task<Channel?> Delete(string id);
+    Task<string> AddUserToChannel(ChannelMember entity);
+    Task RemoveChannelMember(ChannelMember entity);
+    Task <List<ChannelMember>> GetChannelMembers(string channelId);
 }

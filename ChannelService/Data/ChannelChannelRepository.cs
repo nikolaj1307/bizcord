@@ -1,5 +1,6 @@
-using ChannelService.Models;
+using Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Models;
 
 namespace ChannelService.Data;
 
@@ -17,7 +18,7 @@ public class ChannelChannelRepository(ChannelContext channelContext) : IChannelR
 
     public async Task<Channel> Create(Channel entity)
     {
-        channelContext.Channels.Add(entity);
+        await channelContext.Channels.AddAsync(entity);
         await channelContext.SaveChangesAsync();
         return entity;
     }
@@ -46,5 +47,25 @@ public class ChannelChannelRepository(ChannelContext channelContext) : IChannelR
         channelContext.Channels.Remove(channel);
         await channelContext.SaveChangesAsync();
         return channel;
+    }
+
+    public async Task<string> AddUserToChannel(ChannelMember entity)
+    {
+        await channelContext.ChannelMembers.AddAsync(entity);
+        await channelContext.SaveChangesAsync();
+        return entity.UserId;
+    }
+
+    public async Task RemoveChannelMember(ChannelMember entity)
+    {
+        channelContext.ChannelMembers.Remove(entity);
+        await channelContext.SaveChangesAsync();
+    }
+
+    public Task<List<ChannelMember>> GetChannelMembers(string channelId)
+    {
+        return channelContext.ChannelMembers
+            .Where(cm => cm.ChannelId == channelId)
+            .ToListAsync();
     }
 }

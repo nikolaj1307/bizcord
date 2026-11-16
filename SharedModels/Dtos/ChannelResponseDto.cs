@@ -11,4 +11,6 @@ public class ChannelResponseDto
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
+    
+    public List<string> Members { get; set; } = new List<string>();
 }

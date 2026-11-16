@@ -10,4 +10,6 @@ public interface IChannelService
     Task<ChannelResponseDto> Create(CreateChannelDto createDto);
     Task<ChannelResponseDto?> Update(UpdateChannelDto updateDto);
     Task<ChannelResponseDto?> Delete(string id);
+    Task AddUserToChannel(ChannelMemberDto addUserMemberDto);
+    Task RemoveUserFromChannel(ChannelMemberDto removeUserMemberDto);
 }

@@ -1,6 +1,7 @@
 using ChannelService.Data;
 using ChannelService.GraphQL;
 using ChannelService.Service;
+using Infrastructure;
 using MessageClient.Configuration;
 using MessageClient.Factories;
 using MessageClient.Interfaces;
