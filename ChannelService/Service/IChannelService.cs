@@ -1,3 +1,4 @@
+using Models;
 using SharedModels;
 using SharedModels.Dtos;
 
@@ -12,4 +13,6 @@ public interface IChannelService
     Task<ChannelResponseDto?> Delete(string id);
     Task AddUserToChannel(ChannelMemberDto addUserMemberDto);
     Task RemoveUserFromChannel(ChannelMemberDto removeUserMemberDto);
+    Task<List<ChannelMemberDto>> RemoveUserFromAllChannels(string userId);
+    Task ReAddUserToChannels(List<ChannelMemberDto> channelMembers);
 }

@@ -15,4 +15,21 @@ If the ban succeeds but the voice termination fails, is the user banned? What st
 ### Task 02
 
 #### Before You Write Code - Design First
+**Step 1: User Management**
+- Started by: UserBanned
+- Success: UserBanSucceeded
+- Failure: UserBanFailed 
+- Compensation: UserUnbanned
 
+**Step 2: Channel**
+- Started by: UserBanSucceeded
+- Success: BanFromChannelsSucceeded
+- Failure: BanFromChannelsFailed
+- Compensation: ReaddedToChannels
+
+**Step 3: Streaming / VOIP**
+- Started by: BanFromChannelsSucceeded
+- Success: SessionTerminatedSucceeded
+- Failure: SessionTerminatedFailed 
+- Compensation: SessionRestored
+  

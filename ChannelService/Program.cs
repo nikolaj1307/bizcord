@@ -1,6 +1,9 @@
 using ChannelService.Data;
 using ChannelService.GraphQL;
+using ChannelService.Infrastructure;
 using ChannelService.Service;
+using EasyNetQ;
+using EasyNetQ.Consumer;
 using Infrastructure;
 using MessageClient.Configuration;
 using MessageClient.Factories;
@@ -8,6 +11,7 @@ using MessageClient.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Polly;
 using Polly.Retry;
+using SharedModels.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +61,12 @@ builder.Services.AddDbContext<ChannelContext>(options =>
     options.UseNpgsql(
         builder.Configuration["AppOptions:DbConnectionString"]
     ));
+
+
+builder.Services.AddSingleton(
+    RabbitHutch.CreateBus(builder.Configuration["AppOptions:RABBITMQ_HOST"]));
+
+builder.Services.AddScoped<ChannelHandler>();
 
 var app = builder.Build();
 

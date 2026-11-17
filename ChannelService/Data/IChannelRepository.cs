@@ -11,5 +11,7 @@ public interface IChannelRepository
     Task<Channel?> Delete(string id);
     Task<string> AddUserToChannel(ChannelMember entity);
     Task RemoveChannelMember(ChannelMember entity);
-    Task <List<ChannelMember>> GetChannelMembers(string channelId);
+    Task<List<ChannelMember>> GetChannelMembers(string channelId);
+    Task<List<ChannelMember>> RemoveUserFromAllChannels(string userId);
+    Task ReAddUserToChannels(List<ChannelMember> channelMembers);
 }

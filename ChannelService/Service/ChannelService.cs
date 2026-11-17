@@ -159,4 +159,25 @@ public class ChannelService(IChannelRepository channelRepository, IMessageClient
         
         await channelRepository.RemoveChannelMember(channelMember);
     }
+
+    public async Task<List<ChannelMemberDto>> RemoveUserFromAllChannels(string userId)
+    {
+        var channelMembers = await channelRepository.RemoveUserFromAllChannels(userId);
+        return channelMembers.Select(cm => new ChannelMemberDto
+        {
+            ChannelId = cm.ChannelId,
+            UserId = cm.UserId
+        }).ToList();
+    }
+
+    public async Task ReAddUserToChannels(List<ChannelMemberDto> channelMembers)
+    {
+        var channelMembersList = channelMembers.Select(cm => new ChannelMember
+        {
+            ChannelId = cm.ChannelId,
+            UserId = cm.UserId
+        }).ToList();
+        
+        await channelRepository.ReAddUserToChannels(channelMembersList);
+    }
 }

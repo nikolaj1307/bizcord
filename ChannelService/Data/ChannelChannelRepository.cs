@@ -62,10 +62,30 @@ public class ChannelChannelRepository(ChannelContext channelContext) : IChannelR
         await channelContext.SaveChangesAsync();
     }
 
-    public Task<List<ChannelMember>> GetChannelMembers(string channelId)
+    public async Task<List<ChannelMember>> GetChannelMembers(string channelId)
     {
-        return channelContext.ChannelMembers
+        return await channelContext.ChannelMembers
             .Where(cm => cm.ChannelId == channelId)
             .ToListAsync();
+    }
+
+    public async Task<List<ChannelMember>> RemoveUserFromAllChannels(string userId)
+    {
+        var channelMembers = channelContext.ChannelMembers
+            .Where(cm => cm.UserId == userId);
+
+        channelContext.ChannelMembers.RemoveRange(channelMembers);
+        await channelContext.SaveChangesAsync();
+        
+        return channelMembers.ToList();
+    }
+
+    public async Task ReAddUserToChannels(List<ChannelMember> channelMembers)
+    {
+        foreach (var member in channelMembers)
+        {
+            await channelContext.ChannelMembers.AddAsync(member);
+        }
+        await channelContext.SaveChangesAsync();
     }
 }
