@@ -70,7 +70,7 @@ docker compose logs vault
 
 This setup is for local development.
 
-*** Initialization & unsealing *** 
+**Initialization & unsealing**
 1. Open http://localhost:8200
 2. Initialize Vault with Key Shares = 3 and Key Threshold = 2
 3. Save the root token and unseal keys securely
