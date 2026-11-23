@@ -92,7 +92,7 @@ vault login
 2. Enable the KV v2 secrets engine, store an example API key and create a policy that only allows reading that secret:
 ```bash
 vault secrets enable -path=secret kv-v2
-vault kv put secret/bizcord ApiKey=this-is-an-example-api-key-only-for-fun
+vault kv put secret/bizcord ApiKey=1d0421eba2aff1e22228f1a6ace54a6ea8bb71330da3b63d4ecf4a15a4095a85
 printf 'path "secret/data/bizcord" { capabilities = ["read"] }' | vault policy write bizcord-read -
 vault token create -policy=bizcord-read -no-default-policy -ttl=1h
 exit
