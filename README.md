@@ -110,7 +110,7 @@ dotnet run --project VaultRead
 
 After ```read -s VAULT_TOKEN```, paste the application token and press Enter. The token is not displayed.
 
-You should see ```Vault secret loaded successfully`` (value not displayed).
+You should see ```Vault secret loaded successfully``` (value not displayed).
 
 5. You should now be able to use the ```API gateway```. Make sure to follow the README for the ```API gateway``` project, in order to ensure correct setup.
 
