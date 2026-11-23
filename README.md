@@ -100,19 +100,9 @@ exit
 
 3. Copy the application token returned by ```vault token create```
 
-4. Go to the ```API gateway``` project and export the application token:
-```bash
-export VAULT_ADDR=http://localhost:8200
-read -s VAULT_TOKEN
-export VAULT_TOKEN
-dotnet run --project VaultRead
-```
+4. Run the ```API gateway``` project. Make sure to follow the README for the ```API gateway``` project, in order to ensure correct setup.
 
-After ```read -s VAULT_TOKEN```, paste the application token and press Enter. The token is not displayed.
-
-You should see ```Vault secret loaded successfully``` (value not displayed).
-
-5. You should now be able to use the ```API gateway```. Make sure to follow the README for the ```API gateway``` project, in order to ensure correct setup.
+5. You should now be able to use the ```API gateway```.
 
 ### Logging 
 The project uses a centralized logging infrastructure consisting of:
